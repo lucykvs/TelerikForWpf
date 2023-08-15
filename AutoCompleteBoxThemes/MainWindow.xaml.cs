@@ -20,6 +20,26 @@ namespace AutoCompleteBoxThemes {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            this.DataContext = new ViewModel();
+        }
+
+        private void RadButton_Click(object sender, RoutedEventArgs e) {
+            var themeName = ((Telerik.Windows.Controls.RadButton)sender).Content;
+            
+            Application.Current.Resources.MergedDictionaries.Clear();
+
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+            {
+                Source = new Uri("/Telerik.Windows.Themes." + themeName + ";component/Themes/System.Windows.xaml", UriKind.Relative)
+            });
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+            {
+                Source = new Uri("/Telerik.Windows.Themes." + themeName + ";component/Themes/Telerik.Windows.Controls.Input.xaml", UriKind.Relative)
+            });
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+            {
+                Source = new Uri("/Telerik.Windows.Themes." + themeName + ";component/Themes/Telerik.Windows.Controls.xaml", UriKind.Relative)
+            });
         }
     }
 }

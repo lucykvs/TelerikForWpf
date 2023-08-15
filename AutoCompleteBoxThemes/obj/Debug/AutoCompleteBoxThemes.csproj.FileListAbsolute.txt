@@ -30,3 +30,6 @@ C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\obj\D
 C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\obj\Debug\AutoCompleteBoxThemes.csproj.CopyComplete
 C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\obj\Debug\AutoCompleteBoxThemes.exe
 C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\obj\Debug\AutoCompleteBoxThemes.pdb
+C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\obj\Debug\AutoCompleteBoxThemes.exe.licenses
+C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\obj\Debug\App.baml
+C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\obj\Debug\GeneratedInternalTypeHelper.g.cs
