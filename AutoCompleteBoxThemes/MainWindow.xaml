@@ -110,15 +110,21 @@
                 Margin="5"/>
         </StackPanel>
 
-        <telerik:RadAutoCompleteBox Grid.Column="0"
-                                    VerticalAlignment="Top"
-                                    Margin="5"
-                                    SelectionMode="Multiple"
-                                    WatermarkContent="Type a name"
-                                    TextSearchMode="Contains"
-                                    TextSearchPath="FirstName"
-                                    AutoCompleteMode="Suggest"
-                                    ItemsSource="{Binding ContactsList}"
-                                    DropDownItemTemplate="{StaticResource ContactSearchTemplate}"/>
+        <StackPanel Grid.Column="0">
+            <telerik:RadAutoCompleteBox VerticalAlignment="Top"
+                                        Margin="5"
+                                        SelectionMode="Multiple"
+                                        WatermarkContent="Type a name"
+                                        TextSearchMode="Contains"
+                                        TextSearchPath="FirstName"
+                                        AutoCompleteMode="Suggest"
+                                        ItemsSource="{Binding ContactsList}"
+                                        DropDownItemTemplate="{StaticResource ContactSearchTemplate}"/>
+            <telerik:RadGridView HorizontalAlignment="Left" 
+                                 Margin ="5" 
+                                 VerticalAlignment="Top"
+                                 DataContext="{StaticResource ViewModel}"
+                                 ItemsSource="{Binding ContactsList}"/>
+        </StackPanel>
     </Grid>
 </Window>

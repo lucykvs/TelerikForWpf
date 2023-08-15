@@ -4,9 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telerik.Windows.Controls;
 
 namespace AutoCompleteBoxThemes {
-    public class ViewModel {
+    public class ViewModel : ViewModelBase {
 
         Data source = new Data();
 

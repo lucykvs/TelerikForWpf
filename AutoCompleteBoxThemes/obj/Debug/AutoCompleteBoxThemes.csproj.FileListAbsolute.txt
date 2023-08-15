@@ -33,3 +33,7 @@ C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\obj\D
 C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\obj\Debug\AutoCompleteBoxThemes.exe.licenses
 C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\obj\Debug\App.baml
 C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\bin\Debug\Telerik.Windows.Controls.GridView.dll
+C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\bin\Debug\Telerik.Windows.Data.dll
+C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\bin\Debug\Telerik.Windows.Controls.GridView.xml
+C:\Users\Lvincent\source\repos\AutoCompleteBoxThemes\AutoCompleteBoxThemes\bin\Debug\Telerik.Windows.Data.xml

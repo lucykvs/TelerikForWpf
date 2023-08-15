@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AutoCompleteBoxThemes {
-    public class Contact {
+    public class Contact : INotifyPropertyChanged {
 
+        public event PropertyChangedEventHandler PropertyChanged;
         private string _firstName;
         private string _lastName;
 
@@ -20,6 +22,7 @@ namespace AutoCompleteBoxThemes {
                 if (this._firstName != value)
                 {
                     this._firstName = value;
+                    this.OnPropertyChanged(nameof(FirstName));
                 }
             }
         }
@@ -34,8 +37,21 @@ namespace AutoCompleteBoxThemes {
                 if (this._lastName != value)
                 {
                     this._lastName = value;
+                    this.OnPropertyChanged(nameof(LastName));
                 }
             }
+        }
+
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs args) {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
+        }
+
+        private void OnPropertyChanged(string propertyName) {
+            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
     }
 }
