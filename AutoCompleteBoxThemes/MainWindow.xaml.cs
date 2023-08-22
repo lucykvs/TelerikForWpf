@@ -18,6 +18,8 @@ namespace AutoCompleteBoxThemes {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+        private string CurrentTheme = "Office_Black";
+
         public MainWindow() {
             InitializeComponent();
             this.DataContext = new ViewModel();
@@ -44,6 +46,40 @@ namespace AutoCompleteBoxThemes {
             {
                 Source = new Uri("/Telerik.Windows.Themes." + themeName + ";component/Themes/Telerik.Windows.Controls.GridView.xaml", UriKind.Relative)
             });
+        }
+
+        private void ListBox_MouseLeftButtonUp(object sender, RoutedEventArgs e) {
+            if (sender is null)
+            {
+                return;
+            }
+
+            ThemeInfo selectedTheme = (sender as System.Windows.Controls.ListBox).SelectedItem as ThemeInfo;
+            string selectedThemeName = selectedTheme.ThemeName;
+
+            if (selectedThemeName != this.CurrentTheme)
+            {
+                this.CurrentTheme = selectedThemeName;
+
+                Application.Current.Resources.MergedDictionaries.Clear();
+
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes." + selectedThemeName + ";component/Themes/System.Windows.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes." + selectedThemeName + ";component/Themes/Telerik.Windows.Controls.Input.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes." + selectedThemeName + ";component/Themes/Telerik.Windows.Controls.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes." + selectedThemeName + ";component/Themes/Telerik.Windows.Controls.GridView.xaml", UriKind.RelativeOrAbsolute)
+                });
+            }
         }
     }
 }

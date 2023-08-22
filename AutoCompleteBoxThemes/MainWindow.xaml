@@ -31,86 +31,80 @@
                            Margin="4,0,0,0"/>
             </StackPanel>
         </DataTemplate>
+
+
+        <DataTemplate x:Key="ThemesItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" 
+                            Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=DisplayName}"
+                               VerticalAlignment="Center"/>
+                    <Grid HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Width="20"
+                          Height="9">
+                    </Grid>
+                </StackPanel>
+                <ItemsControl HorizontalAlignment="Right"
+                              Grid.Column="1"
+                              ItemsSource="{Binding AccentColors}"
+                              BorderThickness="1">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Rectangle Fill="{Binding}"
+                                       Width="16"
+                                       Height="16"
+                                       Stroke="White"
+                                       StrokeThickness="1"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
+        </DataTemplate>
+        
+        
     </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="73*"/>
+            <RowDefinition Height="361*"/>
+        </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
-        <StackPanel Orientation="Vertical"
-                    HorizontalAlignment="Stretch"
-                    Grid.Column="1">
-            <telerik:RadButton 
-                x:Name="OfficeBlackRadButton"
-                Content="Office_Black"
-                VerticalAlignment="Center"
-                Width="110" Click="RadButton_Click"
-                Margin="5"/>
-            <telerik:RadButton 
-                x:Name="OfficeBlueRadButton"
-                Content="Office_Blue"
-                VerticalAlignment="Center"
-                Width="110" Click="RadButton_Click"
-                Margin="5"/>
-            <telerik:RadButton 
-                x:Name="SummerRadButton"
-                Content="Summer"
-                VerticalAlignment="Center"
-                Width="110" Click="RadButton_Click"
-                Margin="5"/>
-            <telerik:RadButton 
-                x:Name="ExpressionDarkRadButton"
-                Content="Expression_Dark"
-                VerticalAlignment="Center"
-                Width="110" Click="RadButton_Click"
-                Margin="5"/>
-            <telerik:RadButton 
-                x:Name="GreenRadButton"
-                Content="Green"
-                VerticalAlignment="Center"
-                Width="110" Click="RadButton_Click"
-                Margin="5"/>
-            <telerik:RadButton 
-                x:Name="Office2016RadButton"
-                Content="Office2016"
-                VerticalAlignment="Center"
-                Width="110" Click="RadButton_Click"
-                Margin="5"/>
-            <telerik:RadButton 
-                x:Name="Office2019RadButton"
-                Content="Office2019"
-                VerticalAlignment="Center"
-                Width="110" Click="RadButton_Click"
-                Margin="5"/>
-        <telerik:RadButton 
-                x:Name="TransparemtRadButton"
-                Content="Transparent"
-                VerticalAlignment="Center"
-                Width="110" Click="RadButton_Click"
-                Margin="5"/>
-        <telerik:RadButton 
-                x:Name="VistaRadButton"
-                Content="Vista"
-                VerticalAlignment="Center"
-                Width="110" Click="RadButton_Click"
-                Margin="5"/>
-        <telerik:RadButton 
-                x:Name="Windows7RadButton"
-                Content="Windows7"
-                VerticalAlignment="Center"
-                Width="110" Click="RadButton_Click"
-                Margin="5"/>
-        <telerik:RadButton 
-                x:Name="Windows8TouchRadButton"
-                Content="Windows8Touch"
-                VerticalAlignment="Center"
-                Width="110" Click="RadButton_Click"
-                Margin="5"/>
-        </StackPanel>
 
-        <StackPanel Grid.Column="0">
+        <StackPanel Grid.Column="0" Grid.RowSpan="2">
+
+            <telerik:RadDropDownButton AutoOpenDelay="0:0:0.0" 
+                                       Content="Choose a Theme"
+                                       Width="120">
+                <telerik:RadDropDownButton.DropDownContent>
+                    <ListBox x:Name="ThemesList" 
+                             BorderThickness="0" VerticalAlignment="Top" ItemsSource="{Binding Themes}"
+                             SelectedValue="{Binding CurrentTheme, Mode=TwoWay}"
+                             SelectedValuePath="ThemeName"
+                             ItemTemplate="{StaticResource ThemesItemTemplate}"
+                             ScrollViewer.PanningMode="None"
+                             Height="100"
+                             HorizontalContentAlignment="Left"
+                             MouseLeftButtonUp="ListBox_MouseLeftButtonUp"/>
+                </telerik:RadDropDownButton.DropDownContent>
+            </telerik:RadDropDownButton>
+
+            
+            
             <telerik:RadAutoCompleteBox VerticalAlignment="Top"
                                         Margin="5"
                                         SelectionMode="Multiple"
@@ -125,6 +119,7 @@
                                  VerticalAlignment="Top"
                                  DataContext="{StaticResource ViewModel}"
                                  ItemsSource="{Binding ContactsList}"/>
+
         </StackPanel>
     </Grid>
 </Window>
