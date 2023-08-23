@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoCompleteBoxThemes"
-        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" x:Class="AutoCompleteBoxThemes.MainWindow"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" d:DataContext="{d:DesignInstance Type=local:ViewModel}" x:Class="AutoCompleteBoxThemes.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
@@ -33,6 +33,32 @@
         </DataTemplate>
 
 
+        <Style x:Key="ListBoxThemingStyle" TargetType="ListBox">
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Margin" Value="5 0 0 0" />
+                        <Setter Property="Padding" Value="3 0 0 0" />
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <RadioButton IsChecked="{Binding IsSelected, RelativeSource={RelativeSource Mode=TemplatedParent}}" 
+                                                 Click="RadioButton_Click"
+                                                 Content="{TemplateBinding Content}" 
+                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                 ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                                 Padding="{TemplateBinding Padding}" 
+                                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <DataTemplate x:Key="ThemesItemTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -43,16 +69,13 @@
                 <StackPanel Grid.Column="0" 
                             Orientation="Horizontal">
                     <TextBlock Text="{Binding Path=DisplayName}"
-                               VerticalAlignment="Center"/>
-                    <Grid HorizontalAlignment="Center"
-                          VerticalAlignment="Center"
-                          Width="20"
-                          Height="9">
-                    </Grid>
+                               VerticalAlignment="Center"
+                               Width="150"/>
                 </StackPanel>
                 <ItemsControl HorizontalAlignment="Right"
                               Grid.Column="1"
                               ItemsSource="{Binding AccentColors}"
+                              BorderBrush="#33000000"
                               BorderThickness="1">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -95,11 +118,11 @@
                              BorderThickness="0" VerticalAlignment="Top" ItemsSource="{Binding Themes}"
                              SelectedValue="{Binding CurrentTheme, Mode=TwoWay}"
                              SelectedValuePath="ThemeName"
+                             Style="{StaticResource ListBoxThemingStyle}"
                              ItemTemplate="{StaticResource ThemesItemTemplate}"
                              ScrollViewer.PanningMode="None"
                              Height="100"
-                             HorizontalContentAlignment="Left"
-                             MouseLeftButtonUp="ListBox_MouseLeftButtonUp"/>
+                             HorizontalContentAlignment="Left"/>
                 </telerik:RadDropDownButton.DropDownContent>
             </telerik:RadDropDownButton>
 
@@ -119,7 +142,6 @@
                                  VerticalAlignment="Top"
                                  DataContext="{StaticResource ViewModel}"
                                  ItemsSource="{Binding ContactsList}"/>
-
         </StackPanel>
     </Grid>
 </Window>
