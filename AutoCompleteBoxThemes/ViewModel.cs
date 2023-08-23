@@ -1,17 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.TextFormatting;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.ColorPicker;
 
 namespace AutoCompleteBoxThemes {
-    public class ViewModel : ViewModelBase {
+    public class ViewModel : ViewModelBase, INotifyPropertyChanged {
+        //=============================================
+        // FIELDS
+        //=============================================
+        private readonly DelegateCommand<string> _chooseThemeCommand;
 
-        public string CurrentTheme { get; set; } = "Office_Black";
+
+        //=============================================
+        // CONSTRUCTORS
+        //=============================================
+
+        public ViewModel() {
+            _chooseThemeCommand = new DelegateCommand<string>((s) => { this.ChooseThemeExecute(); });
+
+            foreach (var contact in source.GetContacts())
+            {
+                ContactsList.Add(contact);
+            }
+        }
+
+        private ThemeInfo _currentThemeInfo;
+        public ThemeInfo CurrentThemeInfo {
+            get
+            {
+                return _currentThemeInfo;
+            }
+            set
+            {
+                if (value != _currentThemeInfo)
+                {
+                    _currentThemeInfo = value;
+                }
+                OnPropertyChanged(nameof(CurrentThemeInfo));
+            }
+        }
+
+        //=============================================
+        // PROPERTIES
+        //=============================================
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public DelegateCommand<string> ChooseThemeCommand {
+            get { return _chooseThemeCommand; }
+        }
 
         private ObservableCollection<ThemeInfo> _themes;
         public ObservableCollection<ThemeInfo> Themes {
@@ -65,30 +108,6 @@ namespace AutoCompleteBoxThemes {
 
         private ObservableCollection<Contact> _contactsList = new ObservableCollection<Contact>();
 
-        private ObservableCollection<ThemeListItem> _themesList = new ObservableCollection<ThemeListItem>();
-        public ObservableCollection<ThemeListItem> ThemesList {
-            get
-            {
-                if (this._themesList.Count == 0 || this._themesList is null)
-                {
-                    this._themesList = new ObservableCollection<ThemeListItem>();
-                    this._themesList.Add(new ThemeListItem("Office Black", "Office_Black"));
-                    this._themesList.Add(new ThemeListItem("Office Blue", "Office_Blue"));
-                    this._themesList.Add(new ThemeListItem("Summer", "Summer"));
-                    this._themesList.Add(new ThemeListItem("Expression Dark", "Expression_Dark"));
-                    this._themesList.Add(new ThemeListItem("Green", "Green"));
-                    this._themesList.Add(new ThemeListItem("Office 2016", "Office2016"));
-                    this._themesList.Add(new ThemeListItem("Office 2019", "Office2019"));
-                    this._themesList.Add(new ThemeListItem("Transparent", "Transparent"));
-                    this._themesList.Add(new ThemeListItem("Vista", "Vista"));
-                    this._themesList.Add(new ThemeListItem("Windows 7", "Windows7"));
-                    this._themesList.Add(new ThemeListItem("Windows 8 Touch", "Windows8Touch"));
-                }
-                return this._themesList;
-            } 
-        }
-
-
         public ObservableCollection<Contact> ContactsList {
             get
             {
@@ -96,11 +115,106 @@ namespace AutoCompleteBoxThemes {
             }
         }
 
-        public ViewModel() {
-            foreach(var contact in source.GetContacts())
+        //=============================================
+        // METHODS
+        //=============================================
+        private void OnPropertyChanged(string property) {
+            if (PropertyChanged != null)
             {
-                ContactsList.Add(contact);
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
+        }
+
+        private void ChooseThemeExecute() {
+            string selectedThemeName = CurrentThemeInfo.ThemeName;
+
+            try
+            {
+                Application.Current.Resources.MergedDictionaries.Clear();
+
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes." + selectedThemeName + ";component/Themes/System.Windows.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes." + selectedThemeName + ";component/Themes/Telerik.Windows.Controls.Input.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes." + selectedThemeName + ";component/Themes/Telerik.Windows.Controls.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes." + selectedThemeName + ";component/Themes/Telerik.Windows.Controls.Navigation.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes." + selectedThemeName + ";component/Themes/Telerik.Windows.Controls.GridView.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.RichTextBoxUI.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.Spreadsheet.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Documents.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Cloud.Controls.xaml ", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.Chart.xaml ", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.ConversationalUI.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.Data.xaml ", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.DataVisualization.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.FixedDocumentViewers.xaml", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.FixedDocumentViewersUI.xaml ", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.ImageEditor.xaml ", UriKind.RelativeOrAbsolute)
+                });
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+                {
+                    Source = new Uri("/Telerik.Windows.Themes.Office_Black;component/Themes/Telerik.Windows.Controls.RibbonView.xaml", UriKind.RelativeOrAbsolute)
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error changing theme. " + ex.Message);
+            }
+
+            // testing using theme palette objects
+            //    //Office2019Palette.LoadPreset(Office2019Palette.ColorVariation.Gray);
+            //    //this.Background = new SolidColorBrush() { Color = Office2019Palette.Palette.BaseBackgroundColor };
+            //    //this.ThemesList.Background = this.Background;
+
+
+            //    //Windows11Palette.LoadPreset(Windows11Palette.ColorVariation.Dark);
+            //    //this.Background = new SolidColorBrush() { Color = Colors.Black };
+            //    //this.ThemesList.Background = this.Background;
         }
     }
 }

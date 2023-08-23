@@ -33,18 +33,18 @@
         </DataTemplate>
 
 
-        <Style x:Key="ListBoxThemingStyle" TargetType="ListBox">
+        <Style x:Key="ListBoxThemingStyle" TargetType="telerik:RadListBox">
             <Setter Property="ItemContainerStyle">
                 <Setter.Value>
-                    <Style TargetType="ListBoxItem">
+                    <Style TargetType="telerik:RadListBoxItem" 
+                           BasedOn="{StaticResource RadListBoxItemStyle}">
                         <Setter Property="Margin" Value="5 0 0 0" />
                         <Setter Property="Padding" Value="3 0 0 0" />
                         <Setter Property="Cursor" Value="Hand" />
                         <Setter Property="Template">
                             <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
+                                <ControlTemplate TargetType="telerik:RadListBoxItem">
                                     <RadioButton IsChecked="{Binding IsSelected, RelativeSource={RelativeSource Mode=TemplatedParent}}" 
-                                                 Click="RadioButton_Click"
                                                  Content="{TemplateBinding Content}" 
                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}" 
@@ -94,13 +94,49 @@
                 </ItemsControl>
             </Grid>
         </DataTemplate>
-        
-        
+
+
+        <DataTemplate x:Key="ThemeRadButtonTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" 
+                            Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=DisplayName}"
+                               VerticalAlignment="Center"
+                               Width="150"/>
+                </StackPanel>
+                <ItemsControl HorizontalAlignment="Right"
+                              Grid.Column="1"
+                              ItemsSource="{Binding AccentColors}"
+                              BorderBrush="#33000000"
+                              BorderThickness="1">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Rectangle Fill="{Binding}"
+                                       Width="16"
+                                       Height="16"
+                                       Stroke="White"
+                                       StrokeThickness="1"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
+        </DataTemplate>
+
+
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="73*"/>
-            <RowDefinition Height="361*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -110,24 +146,6 @@
 
         <StackPanel Grid.Column="0" Grid.RowSpan="2">
 
-            <telerik:RadDropDownButton AutoOpenDelay="0:0:0.0" 
-                                       Content="Choose a Theme"
-                                       Width="120">
-                <telerik:RadDropDownButton.DropDownContent>
-                    <ListBox x:Name="ThemesList" 
-                             BorderThickness="0" VerticalAlignment="Top" ItemsSource="{Binding Themes}"
-                             SelectedValue="{Binding CurrentTheme, Mode=TwoWay}"
-                             SelectedValuePath="ThemeName"
-                             Style="{StaticResource ListBoxThemingStyle}"
-                             ItemTemplate="{StaticResource ThemesItemTemplate}"
-                             ScrollViewer.PanningMode="None"
-                             Height="100"
-                             HorizontalContentAlignment="Left"/>
-                </telerik:RadDropDownButton.DropDownContent>
-            </telerik:RadDropDownButton>
-
-            
-            
             <telerik:RadAutoCompleteBox VerticalAlignment="Top"
                                         Margin="5"
                                         SelectionMode="Multiple"
@@ -137,11 +155,45 @@
                                         AutoCompleteMode="Suggest"
                                         ItemsSource="{Binding ContactsList}"
                                         DropDownItemTemplate="{StaticResource ContactSearchTemplate}"/>
+            
             <telerik:RadGridView HorizontalAlignment="Left" 
                                  Margin ="5" 
                                  VerticalAlignment="Top"
                                  DataContext="{StaticResource ViewModel}"
                                  ItemsSource="{Binding ContactsList}"/>
         </StackPanel>
+        
+        <StackPanel Orientation="Horizontal"
+                    Grid.Column="1">
+            <telerik:RadDropDownButton x:Name="themeRadButton"
+                                       AutoOpenDelay="0:0:0.0" 
+                                       Width="Auto"
+                                       Height="20"
+                                       VerticalAlignment="Top"
+                                       Margin="5"
+                                       ContentTemplate="{StaticResource ThemeRadButtonTemplate}"
+                                       Content="{Binding CurrentThemeInfo}">
+                <telerik:RadDropDownButton.DropDownContent>
+                    <telerik:RadListBox x:Name="ThemesList" 
+                                 BorderThickness="0" VerticalAlignment="Top" ItemsSource="{Binding Themes}"
+                                 SelectionMode="Single"
+                                 SelectedIndex="10"
+                                 SelectedItem="{Binding CurrentThemeInfo, Mode=TwoWay}"
+                                 ItemTemplate="{StaticResource ThemesItemTemplate}"
+                                 ScrollViewer.PanningMode="None"
+                                 Height="Auto"
+                                 HorizontalContentAlignment="Left">
+                        <!--Style="{StaticResource ListBoxThemingStyle}"-->
+
+                        <telerik:EventToCommandBehavior.EventBindings>
+                            <telerik:EventBinding Command="{Binding ChooseThemeCommand}" EventName="MouseLeftButtonUp" />
+                        </telerik:EventToCommandBehavior.EventBindings>
+                    </telerik:RadListBox>
+
+                </telerik:RadDropDownButton.DropDownContent>
+            </telerik:RadDropDownButton>
+
+        </StackPanel>
+
     </Grid>
 </Window>
